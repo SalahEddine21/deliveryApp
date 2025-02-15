@@ -5,6 +5,7 @@ import com.crafteam.deliveryapp.dtos.OrderDTO;
 import com.crafteam.deliveryapp.services.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/book")
     public ResponseEntity<OrderDTO> bookDelivery(
@@ -22,6 +24,7 @@ public class DeliveryController {
             @RequestParam Long deliverySlotId
     ) {
         OrderDTO order = deliveryService.bookDelivery(customerId, deliverySlotId);
+        messagingTemplate.convertAndSend("/topic/delivery-slots", order);
         return ResponseEntity.ok(order);
     }
 
