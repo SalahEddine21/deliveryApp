@@ -6,6 +6,8 @@ import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ public interface DeliverySlotRepository extends JpaRepository<DeliverySlot, Long
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<DeliverySlot> findById(Long id);
 
-    List<DeliverySlot> findByModeAndDate(DeliveryMode mode, LocalDate date);
+    List<DeliverySlot> findByModeAndDay(DeliveryMode mode, DayOfWeek day);
+    List<DeliverySlot> findByDayAndModeAndMaxReservationsLessThan(DayOfWeek day, DeliveryMode mode, int maxReservations);
 }
 

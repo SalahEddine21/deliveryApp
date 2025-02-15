@@ -42,6 +42,7 @@ public class DataLoader implements CommandLineRunner {
                     slot.setMode(mode);
                     slot.setStartTime(startTime);
                     slot.setEndTime(startTime.plusHours(1));
+                    slot.setMaxReservations();
                     daySlots.add(slot);
                     startTime = startTime.plusHours(1);
                 }
